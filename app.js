@@ -10,6 +10,25 @@ var users = require('./routes/users');
 
 var app = express();
 
+var lib = require('cometd');
+var cometd = new lib.CometD();
+
+//Configure object
+cometd.configure({
+  url: process.env.DATABASE_URL + ''
+});
+
+//Handshake
+cometd.handshake(function(h) {
+  if(h.successful){
+    cometd.subscribe('/topic', function(m){
+      var dataFromServer = m.data;
+      console.log(dataFromServer);
+    });
+  }
+});
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
