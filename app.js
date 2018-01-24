@@ -10,6 +10,8 @@ var users = require('./routes/users');
 
 var app = express();
 
+require('cometd-nodejs-client').adapt();
+
 var lib = require('cometd');
 var cometd = new lib.CometD();
 
