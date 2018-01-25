@@ -4,16 +4,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
 var nforce = require('nforce');
-
 var http= require('http');
 var faye = require('faye');
+const {Client} = require('pg');
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl:true
+});
+
+client.connect();
+
 
 var org = nforce.createConnection({
   clientId: process.env.CLIENTID,
@@ -35,6 +41,29 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
         console.log('we GOT ONE: ' + message);
         console.log('payload:');
         console.log(message.payload);
+        
+        switch(message.payload.Name__c){
+          case 'Account':{
+            client.query('INSERT INTO sfdcAccount(sfdcID, name) VALUES($1, $2) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
+              
+              client.end();
+            });
+          }
+          case 'Contact':{
+            //get accountID from AdditionalData
+            var acctID = message.payload.AdditionalData__c.accountID;
+            client.query('INSERT INTO sfdcContact(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
+              
+              client.end();
+            });
+          }
+          default:{
+
+          }
+        }
+
+
+        
 
       });
   }
