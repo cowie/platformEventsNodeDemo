@@ -28,9 +28,8 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
   else {console.log('wrong password?');console.log(err);}
 });
 
-var orgOauth = org.getOAuth();
 
-var fClient = new faye.Client(orgOauth.instance_url + '/cometd/40.0/');
+var fClient = new faye.Client(org.getOauth().instance_url + '/cometd/40.0/');
 client.setHeader('Authorization', 'OAuth ' + orgOauth.access_token);
 client.subscribe('/event/' + process.env.EVENTNAME, function(message){
   //do stuff
