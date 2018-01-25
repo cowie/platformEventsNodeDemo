@@ -10,7 +10,7 @@ var users = require('./routes/users');
 var app = express();
 
 var nforce = require('nforce');
-var http= require('http');
+var http = require('http');
 var faye = require('faye');
 const {Client} = require('pg');
 const client = new Client({
@@ -45,7 +45,9 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
         switch(message.payload.Type__c){
           case 'Account':
             client.query('INSERT INTO sfdcAccount(sfdcID, name) VALUES($1, $2) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
-              
+              client.query('COMMIT', (err)=>{
+                if (err) console.error('error committin');
+              });
               client.end();
             });
           
@@ -54,7 +56,9 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
             if(message.payload.AdditionalData__c != null){
               var acctID = message.payload.AdditionalData__c.accountID;
               client.query('INSERT INTO sfdcContact(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
-                
+                client.query('COMMIT', (err)=>{
+                  if (err) console.error('error committin');
+                });
                 client.end();
               });
             }
