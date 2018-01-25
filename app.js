@@ -23,22 +23,26 @@ var org = nforce.createConnection({
   mode: 'single'
 });
 
+var oauth;
+
 org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDCPASSWORD}, function(err, resp){
-  if(!err) console.log('sfdc auth successful');
+  if (!err) {
+      console.log('sfdc auth successful');
+      var fClient = new faye.Client(org.oauth.instance_url + '/cometd/40.0/');
+      client.setHeader('Authorization', 'OAuth ' + org.oauth.access_token);
+      client.subscribe('/event/' + process.env.EVENTNAME, function(message){
+        //do stuff
+      console.log('we GOT ONE: ' + message);
+      console.log('payload:' + message.payload);
+      });
+  }
+  
+  
   else {console.log('wrong password?');console.log(err);}
 });
 
-console.log('da org'+ org);
 
-console.log('da oauth' + org.oauth);
 
-var fClient = new faye.Client(org.oauth.instance_url + '/cometd/40.0/');
-client.setHeader('Authorization', 'OAuth ' + org.oauth.access_token);
-client.subscribe('/event/' + process.env.EVENTNAME, function(message){
-  //do stuff
-  console.log('we GOT ONE: ' + message);
-  console.log('payload:' + message.payload);
-});
 
 
 
