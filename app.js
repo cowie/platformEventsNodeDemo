@@ -43,23 +43,23 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
         console.log(message.payload);
         
         switch(message.payload.Type__c){
-          case 'Account':{
+          case 'Account':
             client.query('INSERT INTO sfdcAccount(sfdcID, name) VALUES($1, $2) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
               
               client.end();
             });
-          }
-          case 'Contact':{
+          
+          case 'Contact':
             //get accountID from AdditionalData
             var acctID = message.payload.AdditionalData__c.accountID;
             client.query('INSERT INTO sfdcContact(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
               
               client.end();
             });
-          }
-          default:{
+          
+          default:
 
-          }
+          
         }
 
 
