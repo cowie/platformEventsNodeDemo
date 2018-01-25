@@ -51,11 +51,13 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
           
           case 'Contact':
             //get accountID from AdditionalData
-            var acctID = message.payload.AdditionalData__c.accountID;
-            client.query('INSERT INTO sfdcContact(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
-              
-              client.end();
-            });
+            if(message.payload.AdditionalData__c != null){
+              var acctID = message.payload.AdditionalData__c.accountID;
+              client.query('INSERT INTO sfdcContact(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
+                
+                client.end();
+              });
+            }
           
           default:
 
