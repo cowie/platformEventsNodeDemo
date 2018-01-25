@@ -29,11 +29,11 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
   if (!err) {
       console.log('sfdc auth successful');
       var fClient = new faye.Client(org.oauth.instance_url + '/cometd/40.0/');
-      client.setHeader('Authorization', 'OAuth ' + org.oauth.access_token);
-      client.subscribe('/event/' + process.env.EVENTNAME, function(message){
-        //do stuff
-      console.log('we GOT ONE: ' + message);
-      console.log('payload:' + message.payload);
+      fClient.setHeader('Authorization', 'OAuth ' + org.oauth.access_token);
+      fClient.subscribe('/event/' + process.env.EVENTNAME, function(message){
+          //do stuff
+        console.log('we GOT ONE: ' + message);
+        console.log('payload:' + message.payload);
       });
   }
   
