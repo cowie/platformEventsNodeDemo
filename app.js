@@ -28,9 +28,12 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
   else {console.log('wrong password?');console.log(err);}
 });
 
+console.log('da org'+ org);
 
-var fClient = new faye.Client(org.getOauth().instance_url + '/cometd/40.0/');
-client.setHeader('Authorization', 'OAuth ' + orgOauth.access_token);
+console.log('da oauth' + org.oauth);
+
+var fClient = new faye.Client(org.oauth.instance_url + '/cometd/40.0/');
+client.setHeader('Authorization', 'OAuth ' + org.oauth.access_token);
 client.subscribe('/event/' + process.env.EVENTNAME, function(message){
   //do stuff
   console.log('we GOT ONE: ' + message);
