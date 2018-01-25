@@ -33,7 +33,9 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
       fClient.subscribe('/event/' + process.env.EVENTNAME, function(message){
           //do stuff
         console.log('we GOT ONE: ' + message);
-        console.log('payload:' + message.payload);
+        console.log('payload:');
+        console.log(message.payload);
+
       });
   }
   
