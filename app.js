@@ -42,7 +42,7 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
         console.log('payload:');
         console.log(message.payload);
         
-        switch(message.payload.Name__c){
+        switch(message.payload.Type__c){
           case 'Account':{
             client.query('INSERT INTO sfdcAccount(sfdcID, name) VALUES($1, $2) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
               
