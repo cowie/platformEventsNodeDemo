@@ -10,25 +10,33 @@ var users = require('./routes/users');
 
 var app = express();
 
-require('cometd-nodejs-client').adapt();
+var nforce = require('nforce');
 
-var lib = require('cometd');
-var cometd = new lib.CometD();
+var http= require('http');
+var faye = require('faye');
 
-//Configure object
-cometd.configure({
-  url: process.env.DATABASE_URL + ''
+var org = nforce.createConnection({
+  clientId: process.env.CLIENTID,
+  clientSecret: process.env.CLIENTSECRET,
+  redirectUri: 'http://localhost:3000/oauth/_callback',
+  environment: process.env.ENVIRONMENT,
+  mode: 'single'
 });
 
-//Handshake
-cometd.handshake(function(h) {
-  if(h.successful){
-    cometd.subscribe('/topic', function(m){
-      var dataFromServer = m.data;
-      console.log(dataFromServer);
-    });
-  }
+org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDCPASSWORD}, function(err, resp){
+  if(!err) console.log('sfdc auth successful');
+  else {console.log('wrong password?');console.log(err);}
 });
+
+
+var fClient = new faye.Client(org.oauth.instance_url + '/cometd/40.0/');
+client.setHeader('Authorization', 'OAuth ' + org.oauth.access_token);
+client.subscribe('/event/' + process.env.EVENTNAME, function(message){
+  //do stuff
+  console.log('we GOT ONE: ' + message);
+  console.log('payload:' + message.payload);
+});
+
 
 
 // view engine setup
