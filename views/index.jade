@@ -4,3 +4,7 @@ block content
   h1= object
   p Displaying #{object} Table
   p= rows
+  table
+    each val, ind in rows
+      td= val.sfdcID
+      td= val.name
