@@ -57,7 +57,7 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
               var acctID = message.payload.AdditionalData__c.accountID;
               client.query('INSERT INTO sfdcContact(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
                 client.query('COMMIT', (err)=>{
-                  if (err) console.error('error committin');
+                  if (err) console.error('error committin'); 
                 });
                 client.end();
               });
