@@ -17,6 +17,8 @@ router.post('/upsertRecord/:recordId', function(req, res, next){
   //Account, Contact
   //new, or 
   console.log('upsert detected');
+  console.log(req.params);
+  console.log('recordID = ' + req.params.recordId);
   switch(req.params.recordId){
     case req.params.recordId.startsWith('001'):
       console.log('Account');
@@ -44,6 +46,7 @@ router.post('/upsertRecord/:recordId', function(req, res, next){
     default:
       console.log('Uh nop.');
   }
+  res.sendStatus(200);
 });
 
 
