@@ -49,8 +49,9 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
               client.query('COMMIT', (err)=>{
                 console.log('committing');
                 if (err) console.error(err);
+                client.end();
               });
-              client.end();
+              
             });
           
           case 'Contact':
@@ -60,8 +61,9 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
               client.query('INSERT INTO "public"."sfdcContact"(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
                 client.query('COMMIT', (err)=>{
                   if (err) console.error('error committin'); 
+                  client.end();
                 });
-                client.end();
+                
               });
             }
           
