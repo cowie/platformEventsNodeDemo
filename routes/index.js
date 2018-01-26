@@ -22,25 +22,20 @@ router.post('/upsertRecord/:recordId', function(req, res, next){
   if(req.params.recordId.startsWith('001')){
     console.log('Account');
     console.log(req.body);
-    /*
-    client.query('INSERT INTO "public"."sfdcAccount"("sfdcID", "name") VALUES($1, $2) RETURNING "id"', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
+    
+    client.query('INSERT INTO "public"."sfdcAccount"("sfdcID", "name") VALUES($1, $2) RETURNING "id"', [req.body.Id, req.body.Name], (err,res)=>{
       if(err) console.error(err);
     });
-    */
+    
     } else if (req.params.recordId.startsWith('003')) {
     console.log('Contact');
     console.log(req.body);
-    /*
-    if(message.payload.AdditionalData__c != null){
-      var acctID = message.payload.AdditionalData__c.accountID;
-    
-      client.query('INSERT INTO "public"."sfdcContact"(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
-        if(err) console.error(err);
+    client.query('INSERT INTO "public"."sfdcContact"(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [req.body.Id, req.body.Name, req.body.AccountId], (err,res)=>{
+      if(err) console.error(err);
         
       });
     }
-    */
-    } else {
+    else {
       console.log('Uh nop.');
     }
     res.sendStatus(200);
