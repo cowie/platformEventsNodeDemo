@@ -5,6 +5,10 @@ block content
   p Displaying #{object} Table
   p= rows
   table
+    tr
+      th Salesforce ID
+      th Name
     each val, ind in rows
-      td= val.sfdcID
-      td= val.name
+      tr
+        td= val.sfdcID
+        td= val.name
