@@ -44,7 +44,7 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
         
         switch(message.payload.Type__c){
           case 'Account':
-            client.query('INSERT INTO sfdcAccount(sfdcID, name) VALUES($1, $2) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
+            client.query('INSERT INTO "public"."sfdcAccount"("sfdcID", "name") VALUES($1, $2) RETURNING "id"', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
               if(err) console.error(err);
               client.query('COMMIT', (err)=>{
                 console.log('committing');
@@ -57,7 +57,7 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
             //get accountID from AdditionalData
             if(message.payload.AdditionalData__c != null){
               var acctID = message.payload.AdditionalData__c.accountID;
-              client.query('INSERT INTO sfdcContact(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
+              client.query('INSERT INTO "public"."sfdcContact"(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
                 client.query('COMMIT', (err)=>{
                   if (err) console.error('error committin'); 
                 });
