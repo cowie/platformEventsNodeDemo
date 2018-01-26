@@ -9,8 +9,16 @@ const client = new Client({
 client.connect();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/accounts', function(req, res, next) {
+  client.query('SELECT "sfdcID", "name" FROM "public"."sfdcAccount" LIMIT 20', (err, pres) => {
+    res.render('index', { object: 'Accounts', rows: pres.rows });
+  });
+});
+
+router.get('/contacts', function(req, res, next){
+  client.query('SELECT "sfdcID", "name", "accountID" FROM "public"."sfdcContact" LIMIT 20', (err,pres)=>{
+    res.render('index', { object: 'Contacts', rows: pres.rows});
+  });
 });
 
 router.post('/upsertRecord/:recordId', function(req, res, next){
