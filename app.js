@@ -45,8 +45,10 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
         switch(message.payload.Type__c){
           case 'Account':
             client.query('INSERT INTO sfdcAccount(sfdcID, name) VALUES($1, $2) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
+              if(err) console.error(err);
               client.query('COMMIT', (err)=>{
-                if (err) console.error('error committin');
+                console.log('committing');
+                if (err) console.error(err);
               });
               client.end();
             });
