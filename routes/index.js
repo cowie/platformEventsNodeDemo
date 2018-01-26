@@ -13,42 +13,32 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-
-router.get('/queryRecord/:objectType/:recordId', function(req, res, next){
-  //Account, Contact, AccountContacts
-  switch(req.params.objectType){
-    case 'Account':
-      console.log('Account');
-      client.query('SELECT name, sfdcID FROM sfdcAccount WHERE sfdcID = $1::text', [req.params.recordId], (err,res)=>{
-        
-        client.end();
-      });
-
-    case 'Contact':
-      console.log('Contact');
-      client.query('SELECT name, sfdcID, accountID FROM sfdcContact WHERE sfdcID = $1::text', [req.params.recordId], (err,res)=>{
-
-        client.end();
-      });
-    case 'AccountContacts':
-      console.log('AccountContacts');
-      client.query('SELECT name, sfdcID, accountID FROM sfdcContact WHERE accountID = $1::text', [req.params.recordId], (err,res)=>{
-        
-        client.end();
-      });
-    default:
-      console.log('Uh, nope.');
-  }
-});
-
-router.post('/upsertRecord/:objectType/:recordId', function(req, res, next){
+router.post('/upsertRecord/:recordId', function(req, res, next){
   //Account, Contact
   //new, or ID
   switch(req.params.objectType){
-    case 'Account':
+    case req.params.objectType.startsWith('001'):
       console.log('Account');
-    case 'Contact':
+      console.log(req.body);
+      /*
+      client.query('INSERT INTO "public"."sfdcAccount"("sfdcID", "name") VALUES($1, $2) RETURNING "id"', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
+        if(err) console.error(err);
+      });
+      */
+      break;
+    case req.params.objectType.startsWith('003'):
       console.log('Contact');
+      /*
+      if(message.payload.AdditionalData__c != null){
+        var acctID = message.payload.AdditionalData__c.accountID;
+      
+        client.query('INSERT INTO "public"."sfdcContact"(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
+          if(err) console.error(err);
+          
+        });
+      }
+      */
+      break;
     default:
       console.log('Uh nop.');
   }
