@@ -21,23 +21,10 @@ router.post('/upsertRecord/:recordId', function(req, res, next){
 
   if(req.params.recordId.startsWith('001')){
     console.log('Account');
-    console.log(rec.body.Name);
-    client.query('INSERT INTO "public"."sfdcAccount"("sfdcID", "name") VALUES($1, $2) RETURNING "id"', [req.body.Id, req.body.Name], (err,pres)=>{
-      if(err) console.error(err);
-      else {
-        console.log(pres);
-        
-      }
-    });
+    console.log(req.body.Id + ';' + rec.body.Name);
     } else if (req.params.recordId.startsWith('003')) {
     console.log('Contact');
     console.log(req.body.Id + ';' + rec.body.Name+';'+req.body.AccountId);
-    client.query('INSERT INTO "public"."sfdcContact"("sfdcID", "name", "accountID") VALUES($1, $2, $3) RETURNING id', [req.body.Id, req.body.Name, req.body.AccountId], (err,pres)=>{
-      if(err) console.error(err);
-      else {
-        console.log(pres);
-      }
-      });
     }
     else {
       console.log('Uh nop.');
