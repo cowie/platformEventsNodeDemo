@@ -15,9 +15,10 @@ router.get('/', function(req, res, next) {
 
 router.post('/upsertRecord/:recordId', function(req, res, next){
   //Account, Contact
-  //new, or ID
-  switch(req.params.objectType){
-    case req.params.objectType.startsWith('001'):
+  //new, or 
+  console.log('upsert detected');
+  switch(req.params.recordId){
+    case req.params.recordId.startsWith('001'):
       console.log('Account');
       console.log(req.body);
       /*
@@ -26,8 +27,9 @@ router.post('/upsertRecord/:recordId', function(req, res, next){
       });
       */
       break;
-    case req.params.objectType.startsWith('003'):
+    case req.params.recordId.startsWith('003'):
       console.log('Contact');
+      console.log(req.body);
       /*
       if(message.payload.AdditionalData__c != null){
         var acctID = message.payload.AdditionalData__c.accountID;
