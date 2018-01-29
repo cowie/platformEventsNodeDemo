@@ -17,6 +17,7 @@ client.query(acctQuery, function(err, res){
                 console.log(err);
             }else{
                 console.log('db setup completed');
+                client.end();
             }
         });
     }
