@@ -77,9 +77,6 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
 
 
 
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
