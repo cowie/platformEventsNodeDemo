@@ -1,0 +1,48 @@
+{
+    "name": "SFDC Platform Events ScrubDemo",
+    "description": "Simple node.js app with code to show a serverside data integration using both API means and Platform Events from SFDC to PG",
+    "repository": "https://github.com/cowie/platformEventsNodeDemo",
+    "keywords": ["node", "platform events", "salesforce"],
+    "scripts": {
+        "postdeploy": "node deploy.js"
+    },
+    "env": {
+       "CLIENTID": {
+           "description":"OAuth Client ID from Connected App in SFDC",
+           "value":"",
+           "required":true
+       },
+       "CLIENTSECRET": {
+        "description":"OAuth Client Secret from Connected App in SFDC",
+        "value":"",
+        "required":true
+        },
+        "EVENTNAME": {
+            "description":"The API name of your custom Platform Event (ends in __e)",
+            "value":"",
+            "required":true
+        },
+        "ENVIRONMENT": {
+            "description":"What kind of org is this (sandbox/production) hint: scratch = sandbox, DE = prod",
+            "value":"production",
+            "required":true
+        },
+        "SFDCUSERNAME": {
+            "description":"This way you don't store your creds in code.",
+            "value":"",
+            "required":true
+        },
+        "SFDCPASSWORD": {
+            "description":"Don't forget to append yer security token",
+            "value":"",
+            "required":true
+        }
+    },
+    "addons": [
+        {
+            "plan": "heroku-postgresql:hobby-dev"
+        }
+    ]
+
+
+}
