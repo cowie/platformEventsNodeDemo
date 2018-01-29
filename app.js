@@ -69,6 +69,8 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
         
 
       });
+  } else{
+    console.log(err);
   }
   
   
