@@ -15,8 +15,10 @@ This is a quick repo to deploy a Node app w/ PG on Heroku to simulate two forms 
 ### Execution/Test
 * Once this thing is up, Faye should attempt to connect to your platform event  streaming service. If it doesn't, use the CLI to restart. Check that you got the right creds (don't forget the token after yer password). If it's erroring, use the Heroku CLI, `heroku logs -a your-app-name` to see what's up.
 * If you want to wire into the APIs, make a POST call with the data in the body (use `Apex.Serialize(object)`) and at least Name and SFDC ID as fields to insert to `/upsertRecord/:recordId`, and the system will detect if Account or Contact accordingly.
+* Protip - make sure that `Type` for your Event is set to 'Account' or 'Contact' so PG knows where to toss the record.
 
 *  If you want to mess with things, code for Events is located in `app.js`, code for the apis is located in `index.js`
+
 
 
 ### How to feel after the fact
