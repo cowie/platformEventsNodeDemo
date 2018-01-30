@@ -7,7 +7,8 @@ This is a quick repo to deploy a Node app w/ PG on Heroku to simulate two forms 
 ### Setup
 * Spin up a SFDC instance. Can't test SFDC without SFDC yeah? Either use your devhub to hand you a new Scratch Org or use a Dev sandbox, or use a Developer Edition, whatever's clever.
 * Create a new connected app on the instance, and set up OAuth. Use `http://localhost:3000/oauth/_callback` as your callback url. Give it data and events access in the scopes. Let it log in as you, etc.
-* Create a new Platform Event type, and note the API name for it.
+* Create a new Platform Event type, and note the API name for it. 
+* Fields needed: `Type`(Type of Sobject, Account or Contact are supported here), `ObjectRecordID` (SFDC ID for the record firing the event), `Name` (record name of the record)
 * Run the Heroku button here - [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/cowie/platformEventsNodeDemo) 
 * Put in the variables from your oauth and your username/password into the variables, and spin up the instance. Should be good to go here.
 

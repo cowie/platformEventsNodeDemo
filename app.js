@@ -51,15 +51,10 @@ org.authenticate({username: process.env.SFDCUSERNAME, password: process.env.SFDC
             });
           
           case 'Contact':
-            //get accountID from AdditionalData
-            if(message.payload.AdditionalData__c != null){
-              var acctID = message.payload.AdditionalData__c.accountID;
-              client.query('INSERT INTO "public"."sfdcContact"(sfdcID, name, accountID) VALUES($1, $2, $3) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c, acctID], (err,res)=>{
-                if(err) console.error(err);
-                
+            client.query('INSERT INTO "public"."sfdcContact"(sfdcID, name) VALUES($1, $2) RETURNING id', [message.payload.ObjectRecordID__c, message.payload.Name__c], (err,res)=>{
+              if(err) console.error(err);
               });
-            }
-          
+            break;
           default:
 
           
